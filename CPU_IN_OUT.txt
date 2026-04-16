@@ -1,0 +1,133 @@
+Programming songs:
+I Like To Move It 
+Ray Parker Jr. - Ghostbusters 
+
+http://wiki.osdev.org/PC_Speaker
+
+General-purpose registers:
+DX (Data register): Used in conjunction with AX 
+for multiplication and division operations that produce results 
+larger than 16 bits. 
+It also holds I/O port addresses for IN and OUT instructions.
+
+out
+działanie: wysyła dane A do portu B, numer portu wpisuje się 
+bezpośrednio(liczba 8-bitowa) B można zastępić rejestrem DX
+przykład:
+
+out A,B
+out 0x64, al  ; send command/data to controller
+
+
+
+in al, 0x60   ; read a byte from keyboard controller
+0:  e4 60                   in     al,0x60
+
+out 0x64, al  ; send command/data to controller
+
+0:  e4 11                   in     al,0x11
+2:  e5 11                   in     eax,0x11
+4:  e6 11                   out    0x11,al
+6:  e7 11                   out    0x11,eax
+8:  ec                      in     al,dx
+9:  ed                      in     eax,dx
+a:  ee                      out    dx,al
+b:  ef                      out    dx,eax
+
+
+1) Hardware I/O ports (low-level, x86 concept)
+
+These are special communication endpoints the CPU uses to talk 
+to hardware devices.
+
+Used with instructions like:
+in (read from port)
+out (write to port)
+Each port has an address (e.g., 0x60 for keyboard input on old PCs)
+
+2) CPU execution ports (microarchitecture concept)
+
+Inside modern CPUs, “ports” are internal execution channels.
+
+The CPU has multiple execution units (ALU, FPU, load/store, etc.)
+Each unit is connected via “ports”
+Instructions are scheduled to different ports for parallel execution
+Example (simplified)
+Port 0 → ALU operations
+Port 1 → ALU / vector ops
+Port 2/3 → memory loads
+Port 4 → stores
+
+ This is why modern CPUs can run multiple instructions at once.
+
+But there isn’t a single neat, complete list of “all controllers” 
+you can query this way—because I/O ports are just addresses, 
+and different hardware devices (controllers) 
+are mapped to different ranges depending on the platform.
+
+Common x86 I/O port “controllers”
+Keyboard / PS/2 controller
+0x60 – data port
+0x64 – command/status port
+Programmable Interrupt Controller (PIC)
+0x20, 0x21 – master PIC
+0xA0, 0xA1 – slave PIC
+Programmable Interval Timer (PIT)
+0x40–0x43
+Real-Time Clock (RTC / CMOS)
+0x70 – index
+0x71 – data
+Serial ports (COM)
+0x3F8 – COM1
+0x2F8 – COM2
+0x3E8 – COM3
+0x2E8 – COM4
+
+Parallel port (LPT)
+0x378 – LPT1
+0x278 – LPT2
+VGA / graphics
+0x3C0–0x3DF
+DMA controller
+0x00–0x1F
+0xC0–0xDF
+IDE (old disk controllers)
+0x1F0–0x1F7 – primary
+0x170–0x177 – secondary
+
+Important reality check
+This is legacy PC hardware (mostly pre-UEFI era).
+Modern systems use:
+memory-mapped I/O (MMIO) instead of port I/O
+complex buses like PCIe
+Direct in / out instructions:
+require kernel privileges
+usually won’t work in user-space programs
+
+Key idea
+There’s no universal “list all controllers” instruction.
+Ports are just numeric addresses.
+What exists at a port depends on:
+chipset
+motherboard
+firmware
+
+If you want, I can show how the keyboard controller at 
+0x60/0x64 actually works step-by-step (status bits, command flow, etc.), 
+which is usually the next useful thing to understand.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
