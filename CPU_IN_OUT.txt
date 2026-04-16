@@ -218,7 +218,12 @@ Or show what’s actually used on a modern Linux system (/proc/ioports)
 Or explain how virtualization emulates these controllers internally
 
 
+Ioctlcodes
+<sys/ioctl.h>
 
+grep -r '#define _IO' /usr/include
+
+grep -r '#define _IO' /usr/include/$(uname -r)/linux/
 
 
 
