@@ -192,6 +192,14 @@ Repurposed
 Virtualized by firmware or hypervisors
 A cleaner mental model
 
+MMIO
+Memory-Mapped I/O (MMIO) is a method where peripheral devices 
+(like graphics cards or network adapters) are mapped directly 
+into a computer’s main physical memory address space. This 
+allows the CPU to communicate with hardware using standard 
+memory instructions (e.g., read/write) rather than special 
+I/O instructions, making data transfer faster and more efficient. 
+
 Think of x86 I/O ports as three layers:
 
 Fixed legacy controllers (ISA era)
