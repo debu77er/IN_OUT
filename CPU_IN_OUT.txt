@@ -1,6 +1,9 @@
 Programming songs:
 I Like To Move It 
 Ray Parker Jr. - Ghostbusters 
+Cypress Hill - What's Your Number
+Toto - Hold The Line
+Bloodhound - The Choice Is Yours 
 
 http://wiki.osdev.org/PC_Speaker
 
